@@ -1,3 +1,3 @@
-# twilight-arma
+# serenity-arma
 
-A bot written in Rust, using `twilight`, `futures` and `tokio`, focused on ArmA dedicated servers and their communities.
+A bot written in Rust, using `serenity` and `tokio`, focused on ArmA dedicated servers and their communities.
