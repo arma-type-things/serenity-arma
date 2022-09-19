@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
         - name: serenity-arma
-          image: registry.digitalocean.com/outof-coffee/serenity-arma:latest
+          image: your.registry.com/serenity-arma:latest
           imagePullPolicy: Always
           env:
             - name: ARMA_HOST_STRING
