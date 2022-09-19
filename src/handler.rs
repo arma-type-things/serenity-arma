@@ -16,7 +16,7 @@ use serenity::{
 };
 
 use crate::arma::ArmaDiscordConfiguration;
-use crate::commands::ServerStatusCommand;
+use crate::commands::steam::{ServerQueryCommand, ServerStatusCommand};
 
 pub(crate) struct Handler {
     pub(crate) arma_discord_configuration: Option<ArmaDiscordConfiguration>
@@ -34,18 +34,23 @@ impl EventHandler for Handler {
 
     async fn interaction_create(&self, ctx: Context, interaction: Interaction) {
         if let Interaction::ApplicationCommand(command) = interaction {
-            println!("Received command: {:#?}", command);
-
             let content = match command.data.name.as_str() {
-                // "ping" => PingCommand::run(&command.data.options),
+                "query" => {
+                    match &self.arma_discord_configuration {
+                        Some(config) => {
+                            ServerQueryCommand::run(&command.data.options, config).await
+                        },
+                        _ => "no valid configuration found for query command".to_string()
+                    }
+                },
                 "status" => {
                     match &self.arma_discord_configuration {
                         Some(config) => {
-                            ServerStatusCommand::run(&command.data.options, config)
+                            ServerStatusCommand::run(&command.data.options, config).await
                         },
                         _ => "no valid configuration found for status command".to_string()
                     }
-                },
+                }
                 _ => "not implemented".to_string(),
             };
 
@@ -77,6 +82,9 @@ impl Handler {
                     &config.discord_guild_id,
                     &ctx.http,
                     |commands| {
+                        print!(".. /query ");
+                        commands
+                            .create_application_command(|command| ServerQueryCommand::register(command));
                         print!(".. /status ");
                         commands
                             .create_application_command(|command| ServerStatusCommand::register(command))
@@ -89,10 +97,7 @@ impl Handler {
 
     async fn inject_global_commands(&self, _ctx: &Context) {
         print!("Injecting global commands: ");
-        // Command::create_global_application_command(&ctx.http, |command| {
-        //     print!(".. /ping ");
-        //     PingCommand::register(command)
-        // }).await.expect("Unable to register global ping command.");
+        // TODO: Define global commands, if any.
         println!(".. none to inject.");
     }
 }
