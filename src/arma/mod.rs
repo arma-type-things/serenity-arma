@@ -22,11 +22,11 @@ impl ArmaDiscordConfiguration {
     // TODO: the state, ready and guild data
     pub fn new() -> Option<ArmaDiscordConfiguration> {
         // No point if we can't even hit the API
-        if let Some(steam_api_key) = env::var("STEAM_API_KEY").ok() {
+        if let Ok(steam_api_key) = env::var("STEAM_API_KEY") {
             // Or don't know what to request
-            if let Some(arma_server_host) = env::var("ARMA_HOST_STRING").ok() {
+            if let Ok(arma_server_host) = env::var("ARMA_HOST_STRING") {
                 // And haven't figured out a guild that manages this server ...
-                if let Some(guild_id_raw) = env::var("GUILD_ID").ok()?.parse().ok() {
+                if let Ok(guild_id_raw) = env::var("GUILD_ID").ok()?.parse() {
                     return Some(ArmaDiscordConfiguration{
                         steam_api_key,
                         arma_server_host,
