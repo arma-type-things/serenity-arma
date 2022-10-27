@@ -1,8 +1,32 @@
+use std::fmt::{Debug, Display, Formatter};
 use serde::Deserialize;
 use serenity::model::application::interaction::application_command::CommandDataOption;
 use serenity::utils::MessageBuilder;
 use serenity::builder::CreateApplicationCommand;
 use crate::arma::ArmaDiscordConfiguration;
+
+pub trait SteamServerCommand {
+    fn register(command: &mut CreateApplicationCommand) -> &mut CreateApplicationCommand;
+    fn handle(&self, command: &CommandDataOption, guild_configuration: Option<ArmaDiscordConfiguration>) -> Result<(), SteamServerCommandError>;
+}
+
+pub struct SteamServerCommandError {
+    pub message: String
+}
+
+impl Debug for SteamServerCommandError {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.write_str(&self.message)
+    }
+}
+
+impl Display for SteamServerCommandError {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.write_str(&self.message)
+    }
+}
+
+impl std::error::Error for SteamServerCommandError {}
 
 pub struct ServerQueryCommand;
 
