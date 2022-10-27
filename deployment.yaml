@@ -35,6 +35,8 @@ spec:
           image: your.registry.com/serenity-arma:latest
           imagePullPolicy: Always
           env:
+            - name: DATABASE_URL
+              value: "sqlite:database.sqlite"
             - name: ARMA_HOST_STRING
               value: "12.34.56.78:2302" # replace with your arma server ip and port
             - name: GUILD_ID
