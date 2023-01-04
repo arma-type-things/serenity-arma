@@ -75,23 +75,20 @@ impl Handler {
     }
 
     async fn inject_arma_commands(&self, ctx: &Context) {
-        match &self.arma_discord_configuration {
-            Some(config) => {
-                print!("Injecting ArmA commands for Guild {}: ", config.discord_guild_id);
-                let _ = GuildId::set_application_commands(
-                    &config.discord_guild_id,
-                    &ctx.http,
-                    |commands| {
-                        print!(".. /query ");
-                        commands
-                            .create_application_command(|command| ServerQueryCommand::register(command));
-                        print!(".. /status ");
-                        commands
-                            .create_application_command(|command| ServerStatusCommand::register(command))
-                }).await;
-                println!("... done.");
-            },
-            _ => {}
+        if let Some(config) = &self.arma_discord_configuration {
+            print!("Injecting ArmA commands for Guild {}: ", config.discord_guild_id);
+            let _ = GuildId::set_application_commands(
+                &config.discord_guild_id,
+                &ctx.http,
+                |commands| {
+                    print!(".. /query ");
+                    commands
+                        .create_application_command(|command| ServerQueryCommand::register(command));
+                    print!(".. /status ");
+                    commands
+                        .create_application_command(|command| ServerStatusCommand::register(command))
+            }).await;
+            println!("... done.");
         }
     }
 

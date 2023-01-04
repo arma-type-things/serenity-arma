@@ -1,6 +1,6 @@
 // pub mod bot;
 pub mod config;
-pub mod commands;
+mod bot;
 
 pub mod prelude {
     // pub use crate::arma::bot::Manager;

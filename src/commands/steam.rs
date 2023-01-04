@@ -5,10 +5,10 @@ use serenity::utils::MessageBuilder;
 use serenity::builder::CreateApplicationCommand;
 use crate::arma::ArmaDiscordConfiguration;
 
-pub trait SteamServerCommand {
-    fn register(command: &mut CreateApplicationCommand) -> &mut CreateApplicationCommand;
-    fn handle(&self, command: &CommandDataOption, guild_configuration: Option<ArmaDiscordConfiguration>) -> Result<(), SteamServerCommandError>;
-}
+// pub trait SteamServerCommandHandler {
+//     fn register(command: &mut CreateApplicationCommand) -> &mut CreateApplicationCommand;
+//     fn handle(&self, command: &[CommandDataOption]) -> Result<(), SteamServerCommandError>;
+// }
 
 pub struct SteamServerCommandError {
     pub message: String
