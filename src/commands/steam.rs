@@ -128,7 +128,7 @@ impl ServerStatusCommand {
             .push_bold("Players: ")
             .push_line(format!("{}/{}", server.players, server.max_players))
             .push_bold("Connect: ")
-            .push_line(format!("steam://connect/{}:{}", server.addr, server.gameport));
+            .push_line(format!("steam://connect/{}", server.addr));
     }
 }
 
